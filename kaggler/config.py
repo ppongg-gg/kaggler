@@ -11,8 +11,7 @@ load_dotenv()
 
 @dataclass
 class GlobalConfig:
-    kaggle_username: str
-    kaggle_key: str
+    kaggle_api_token: str
     anthropic_api_key: str
     workspace_root: Path
     max_daily_submissions: int
@@ -37,18 +36,15 @@ class ConfigManager:
         self.competition_name = competition_name
 
     def load_global(self) -> GlobalConfig:
-        username = os.environ.get("KAGGLE_USERNAME", "")
-        key = os.environ.get("KAGGLE_KEY", "")
+        kaggle_token = os.environ.get("KAGGLE_API_TOKEN", "")
         anthropic_key = os.environ.get("ANTHROPIC_API_KEY", "")
         workspace_root = Path(os.environ.get("WORKSPACE_ROOT", "./workspaces"))
         max_subs = int(os.environ.get("KAGGLE_MAX_DAILY_SUBMISSIONS", "5"))
-        claude_model = os.environ.get("CLAUDE_MODEL", "claude-sonnet-4-6")
+        claude_model = os.environ.get("CLAUDE_MODEL", "claude-haiku-4-5-20251001")
 
         missing = []
-        if not username:
-            missing.append("KAGGLE_USERNAME")
-        if not key:
-            missing.append("KAGGLE_KEY")
+        if not kaggle_token:
+            missing.append("KAGGLE_API_TOKEN")
         if not anthropic_key:
             missing.append("ANTHROPIC_API_KEY")
         if missing:
@@ -57,9 +53,11 @@ class ConfigManager:
                 "Copy .env.example to .env and fill in your credentials."
             )
 
+        # Ensure the token is available to the kaggle SDK
+        os.environ["KAGGLE_API_TOKEN"] = kaggle_token
+
         return GlobalConfig(
-            kaggle_username=username,
-            kaggle_key=key,
+            kaggle_api_token=kaggle_token,
             anthropic_api_key=anthropic_key,
             workspace_root=workspace_root,
             max_daily_submissions=max_subs,

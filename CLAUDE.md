@@ -10,7 +10,7 @@ cp .env.example .env   # fill in credentials
 ```
 
 Credentials needed in `.env`:
-- `KAGGLE_USERNAME` + `KAGGLE_KEY` — from https://www.kaggle.com/settings/api
+- `KAGGLE_API_TOKEN` — from https://www.kaggle.com/settings/api (copy the `KGAT_...` token)
 - `ANTHROPIC_API_KEY` — from https://console.anthropic.com
 
 ## Usage
