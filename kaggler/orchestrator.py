@@ -61,6 +61,19 @@ class KaggleOrchestrator:
         data_mgr = DataManager(self.competition_name, workspace)
         inventory = data_mgr.download()
 
+        # Infer target column from sample_submission if meta didn't catch it
+        if not meta.target_column or meta.target_column == "unknown":
+            sample = data_mgr.load_sample_submission(inventory)
+            if sample is not None:
+                non_id_cols = [c for c in sample.columns if c.lower() != (meta.id_column or "id").lower()]
+                if non_id_cols:
+                    meta.target_column = non_id_cols[0]
+                    logger.info(f"Inferred target column from sample_submission: {meta.target_column}")
+                    import json, dataclasses
+                    (workspace / "competition_meta.json").write_text(
+                        json.dumps(dataclasses.asdict(meta), indent=2)
+                    )
+
         # --- Phase 2: Iteration loop ---
         tracker = ScoreTracker(meta, workspace)
         submitter = Submitter(global_cfg, self.competition_name, workspace)

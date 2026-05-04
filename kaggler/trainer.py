@@ -56,15 +56,20 @@ class Trainer:
         )
         start = time.time()
 
+        metric = self.meta.eval_metric
+        if not metric or metric == "unknown":
+            metric = None
+
         predictor = TabularPredictor(
             label=self.meta.target_column,
-            eval_metric=self.meta.eval_metric or None,
+            eval_metric=metric,
             path=str(model_path),
             verbosity=1,
         ).fit(
             train_data=train_df,
             presets=ag_config["presets"],
             time_limit=ag_config["time_limit"],
+            excluded_model_types=["NN_TORCH", "FASTAI"],
             **(ag_config.get("extra_args", {})),
         )
 

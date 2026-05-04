@@ -9,3 +9,4 @@ build/
 venv/
 .pytest_cache/
 *.log
+.claude/settings.local.json

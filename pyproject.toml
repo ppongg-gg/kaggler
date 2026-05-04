@@ -6,7 +6,7 @@ requires-python = ">=3.11"
 dependencies = [
     "anthropic>=0.40.0",
     "kaggle>=1.6.17",
-    "autogluon-tabular[lightgbm,xgboost]>=1.1.0",
+    "autogluon-tabular[catboost,lightgbm,xgboost]>=1.1.0",
     "pandas>=2.1.0",
     "numpy>=1.26.0",
     "pyarrow>=14.0.0",
