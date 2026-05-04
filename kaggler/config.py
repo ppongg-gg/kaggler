@@ -39,7 +39,7 @@ class ConfigManager:
         kaggle_token = os.environ.get("KAGGLE_API_TOKEN", "")
         anthropic_key = os.environ.get("ANTHROPIC_API_KEY", "")
         workspace_root = Path(os.environ.get("WORKSPACE_ROOT", "./workspaces"))
-        max_subs = int(os.environ.get("KAGGLE_MAX_DAILY_SUBMISSIONS", "5"))
+        max_subs = int(os.environ.get("KAGGLE_MAX_DAILY_SUBMISSIONS", "10"))
         claude_model = os.environ.get("CLAUDE_MODEL", "claude-haiku-4-5-20251001")
 
         missing = []
